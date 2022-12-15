@@ -122,6 +122,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           'See Github Profile',
                           style: TextStyle(
                             color: _textColor,
+                            fontSize: 12.sp,
+                            shadows: kBoxShadow,
                           ),
                         ),
                       ),
