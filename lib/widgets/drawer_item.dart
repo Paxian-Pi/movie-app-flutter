@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app_flutter/widgets/custom_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 
 class DrawerItem extends StatelessWidget {
   final String title;
   final Widget? child;
+  final Widget? buttonWidget;
   final String? desc;
 
-  DrawerItem({required this.title, this.child, this.desc});
+  DrawerItem({required this.title, this.child, this.buttonWidget, this.desc});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,8 @@ class DrawerItem extends StatelessWidget {
                 ),
               ),
             ),
+        SizedBox(height: 1.h),
+        buttonWidget ?? Container()
       ],
     );
   }

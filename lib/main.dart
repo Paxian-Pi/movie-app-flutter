@@ -10,19 +10,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Sizer(
-      builder: (context, orientation, deviceType) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Movies App',
-          theme: ThemeData.dark().copyWith(
-            platform: TargetPlatform.iOS,
-            primaryColor: kPrimaryColor,
-            scaffoldBackgroundColor: kPrimaryColor,
-          ),
-          home: HomeScreen(key: kHomeScreenKey),
-        );
-      },
-    );
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Movies App',
+        theme: ThemeData.dark().copyWith(
+          platform: TargetPlatform.iOS,
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: kPrimaryColor,
+        ),
+        home: HomeScreen(key: kHomeScreenKey),
+      );
+    });
   }
 }
