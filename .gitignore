@@ -44,5 +44,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-lib/secret/themoviedb_api.dart
-lib/secret/themoviedb_api.dart
+lib/secret/the_moviedb_api.dart
