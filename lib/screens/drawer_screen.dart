@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app_flutter/widgets/colored_circle.dart';
-import 'package:movies_app_flutter/widgets/custom_button.dart';
-import 'package:movies_app_flutter/widgets/drawer_item.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:movies_app_flutter/services/app_state.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
+import 'package:movies_app_flutter/widgets/colored_circle.dart';
+import 'package:movies_app_flutter/widgets/drawer_item.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DrawerScreen extends StatefulWidget {
@@ -16,6 +18,8 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  final appState = Get.put(AppState(), permanent: true);
+
   final Uri _url = Uri.parse('https://github.com/Paxian-PI');
 
   Future<void> _launchUrl() async {
@@ -30,12 +34,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
   void initState() {
     super.initState();
 
-    getButtonColor();
+    getCurrentTheme();
   }
 
-  void getButtonColor() async {
+  void getCurrentTheme() async {
     _textColor = await file.currentTheme();
-    debugPrint('colorzzz = $_textColor');
     setState(() {});
   }
 
@@ -64,6 +67,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           file.saveTheme(color: "green");
                           widget.onColorChange(color);
                           _textColor = color;
+                          appState.setThemeColor(color);
                         },
                       ),
                       ColoredCircle(
@@ -72,6 +76,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           file.saveTheme(color: "blue");
                           widget.onColorChange(color);
                           _textColor = color;
+                          appState.setThemeColor(color);
                         },
                       ),
                       ColoredCircle(
@@ -80,6 +85,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           file.saveTheme(color: "orange");
                           widget.onColorChange(color);
                           _textColor = color;
+                          appState.setThemeColor(color);
                         },
                       ),
                       ColoredCircle(
@@ -88,6 +94,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           file.saveTheme(color: "pink");
                           widget.onColorChange(color);
                           _textColor = color;
+                          appState.setThemeColor(color);
                         },
                       ),
                     ],
@@ -98,7 +105,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   title: kDrawerTitleSecondText,
                   desc: kDrawerAboutDescText,
                   buttonWidget: ElevatedButton(
-                    onPressed: _launchUrl,
+                    onPressed: () {
+                      HapticFeedback.vibrate();
+                      SystemSound.play(SystemSoundType.click);
+
+                      _launchUrl();
+                    },
                     style: ElevatedButton.styleFrom(
                       onPrimary: _textColor,
                       shadowColor: Colors.grey,
@@ -148,10 +160,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
     );
   }
 }
-
-
-
-
 
 // class DrawerScreen extends StatelessWidget {
 //   final Function(Color) onColorChange;

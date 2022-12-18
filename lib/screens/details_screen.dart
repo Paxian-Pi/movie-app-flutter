@@ -1,21 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:movies_app_flutter/model/movie_details.dart';
+import 'package:movies_app_flutter/services/app_state.dart';
 import 'package:movies_app_flutter/services/movie.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
-import 'package:movies_app_flutter/widgets/custom_loading_spin_kit_ring.dart';
-import 'package:sizer/sizer.dart';
+import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'package:movies_app_flutter/utils/star_calculator.dart'
     as starCalculator;
-import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'package:movies_app_flutter/utils/toast_alert.dart' as alert;
+import 'package:movies_app_flutter/widgets/custom_loading_spin_kit_ring.dart';
+import 'package:sizer/sizer.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String id;
-  final Color themeColor;
+  // final Color themeColor;
 
-  DetailsScreen({required this.id, required this.themeColor});
+  DetailsScreen({
+    required this.id,
+    // required this.themeColor,
+  });
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
@@ -28,6 +33,8 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  final appState = Get.put(AppState());
+
   MovieDetails? movieDetails;
   List<Widget>? stars;
   bool isFavorite = false;
@@ -52,7 +59,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (await file.addFavorite(movieID: widget.id)) {
       alert.toastAlert(
         message: kFavoriteAddedText,
-        themeColor: widget.themeColor,
+        // themeColor: widget.themeColor,
+        themeColor: appState.themeColor.value,
       );
     }
     setState(() {
@@ -64,7 +72,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     if (await file.removeFavorite(movieID: widget.id)) {
       alert.toastAlert(
         message: kFavoriteRemovedText,
-        themeColor: widget.themeColor,
+        // themeColor: widget.themeColor,
+        themeColor: appState.themeColor.value,
       );
     }
     setState(() {
@@ -76,7 +85,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: (stars == null)
-          ? CustomLoadingSpinKitRing(iconSpinnarColor: widget.themeColor)
+          ? Obx(
+              () {
+                return CustomLoadingSpinKitRing(
+                  // iconSpinnarColor: widget.themeColor,
+                  iconSpinnarColor: appState.themeColor.value,
+                );
+              },
+            )
           : CustomScrollView(
               slivers: [
                 SliverAppBar(
@@ -121,21 +137,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: CachedNetworkImage(
                         fit: BoxFit.cover,
                         placeholder: (context, url) => SafeArea(
-                          child: Container(
-                            height: 22.h,
-                            child: CustomLoadingSpinKitRing(
-                              iconSpinnarColor: widget.themeColor,
-                            ),
-                          ),
+                          child: Obx(() {
+                            return Container(
+                              height: 22.h,
+                              child: CustomLoadingSpinKitRing(
+                                // iconSpinnarColor: widget.themeColor,
+                                iconSpinnarColor: appState.themeColor.value,
+                              ),
+                            );
+                          }),
                         ),
                         imageUrl: movieDetails!.backgroundURL,
                         errorWidget: (context, url, error) => SafeArea(
-                          child: Container(
-                            height: 22.h,
-                            child: CustomLoadingSpinKitRing(
-                              iconSpinnarColor: widget.themeColor,
-                            ),
-                          ),
+                          child: Obx(() {
+                            return Container(
+                              height: 22.h,
+                              child: CustomLoadingSpinKitRing(
+                                // iconSpinnarColor: widget.themeColor,
+                                iconSpinnarColor: appState.themeColor.value,
+                              ),
+                            );
+                          }),
                         ),
                       ),
                     ),

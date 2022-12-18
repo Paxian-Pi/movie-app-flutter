@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:movies_app_flutter/model/movie_preview.dart';
 import 'package:movies_app_flutter/screens/details_screen.dart';
+import 'package:movies_app_flutter/services/app_state.dart';
+import 'package:movies_app_flutter/utils/constants.dart';
+import 'package:movies_app_flutter/utils/navi.dart' as navi;
 import 'package:movies_app_flutter/utils/star_calculator.dart'
     as starCalculator;
 import 'package:sizer/sizer.dart';
-import 'package:movies_app_flutter/utils/constants.dart';
+
 import 'custom_loading_spin_kit_ring.dart';
-import 'package:movies_app_flutter/utils/navi.dart' as navi;
 
 class MovieCard extends StatelessWidget {
   final MoviePreview moviePreview;
@@ -20,9 +23,12 @@ class MovieCard extends StatelessWidget {
     this.contentLoadedFromPage,
   });
 
+  final appState = Get.put(AppState());
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> stars = starCalculator.getStars(rating: moviePreview.rating, starSize: 2.h);
+    List<Widget> stars =
+        starCalculator.getStars(rating: moviePreview.rating, starSize: 2.h);
 
     return GestureDetector(
       onTap: () async {
@@ -30,7 +36,7 @@ class MovieCard extends StatelessWidget {
           context: context,
           newScreen: () => DetailsScreen(
             id: moviePreview.id,
-            themeColor: themeColor,
+            // themeColor: themeColor,
           ),
         );
         if (contentLoadedFromPage != null) {
@@ -46,28 +52,37 @@ class MovieCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.2.w),
                   child: CachedNetworkImage(
-                      height: double.infinity,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Column(
-                            children: [
-                              Container(
-                                height: 20.h,
-                                child: CustomLoadingSpinKitRing(
-                                    iconSpinnarColor: themeColor),
-                              )
-                            ],
-                          ),
-                      imageUrl: moviePreview.imageUrl!,
-                      errorWidget: (context, url, error) => Column(
-                            children: [
-                              Container(
-                                height: 20.h,
-                                child: CustomLoadingSpinKitRing(
-                                    iconSpinnarColor: themeColor),
-                              )
-                            ],
-                          )),
+                    height: double.infinity,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Column(
+                      children: [
+                        Obx(() {
+                          return Container(
+                            height: 20.h,
+                            child: CustomLoadingSpinKitRing(
+                              // iconSpinnarColor: themeColor,
+                              iconSpinnarColor: appState.themeColor.value,
+                            ),
+                          );
+                        })
+                      ],
+                    ),
+                    imageUrl: moviePreview.imageUrl!,
+                    errorWidget: (context, url, error) => Column(
+                      children: [
+                        Obx(() {
+                          return Container(
+                            height: 20.h,
+                            child: CustomLoadingSpinKitRing(
+                              // iconSpinnarColor: themeColor,
+                              iconSpinnarColor: appState.themeColor.value,
+                            ),
+                          );
+                        })
+                      ],
+                    ),
+                  ),
                 ),
               ),
               height: 30.h,

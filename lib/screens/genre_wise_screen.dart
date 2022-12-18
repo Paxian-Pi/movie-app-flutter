@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app_flutter/services/movie.dart';
+import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'package:movies_app_flutter/utils/scroll_top_with_controller.dart'
     as scrollTop;
-import 'package:movies_app_flutter/services/movie.dart';
-import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/widgets/custom_loading_spin_kit_ring.dart';
 import 'package:movies_app_flutter/widgets/movie_card.dart';
 import 'package:movies_app_flutter/widgets/movie_card_container.dart';
@@ -14,8 +14,9 @@ import 'package:sizer/sizer.dart';
 class GenreWiseScreen extends StatefulWidget {
   final String genre;
   final int genreId;
-  GenreWiseScreen({Key? key, required this.genre, required this.genreId}) : super(key: key);
-  
+  GenreWiseScreen({Key? key, required this.genre, required this.genreId})
+      : super(key: key);
+
   @override
   State<GenreWiseScreen> createState() => _GenreWiseScreenState();
 }
@@ -72,8 +73,9 @@ class _GenreWiseScreenState extends State<GenreWiseScreen>
         elevation: 0,
         backgroundColor: kSearchAppBarColor,
         title: Text(
-            "${widget.genre.endsWith('y') ? widget.genre.replaceRange(widget.genre.length - 1, widget.genre.length, 'ie') : widget.genre}s",
-            style: kSmallAppBarTitleTextStyle),
+          "${widget.genre.endsWith('y') ? widget.genre.replaceRange(widget.genre.length - 1, widget.genre.length, 'ie') : widget.genre}s",
+          style: kSmallAppBarTitleTextStyle,
+        ),
       ),
       body: (_movieCards == null)
           ? CustomLoadingSpinKitRing(iconSpinnarColor: themeColor)

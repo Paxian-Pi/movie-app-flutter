@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:movies_app_flutter/screens/drawer_screen.dart';
 import 'package:movies_app_flutter/screens/finder_screen.dart';
+import 'package:movies_app_flutter/services/app_state.dart';
+import 'package:movies_app_flutter/services/movie.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
 import 'package:movies_app_flutter/utils/navi.dart' as navi;
@@ -15,7 +18,6 @@ import 'package:movies_app_flutter/widgets/movie_card.dart';
 import 'package:movies_app_flutter/widgets/movie_card_container.dart';
 import 'package:movies_app_flutter/widgets/shadowless_floating_button.dart';
 import 'package:sizer/sizer.dart';
-import 'package:movies_app_flutter/services/movie.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -35,16 +37,20 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool showSpinnar = true;
   String title = kHomeScreenTitleText;
   int bottomBarIndex = 1;
-  
+
+  final appState = Get.put(AppState());
+
   Future<void> loadData() async {
     MovieModel movieModel = MovieModel();
     _movieCards = (bottomBarIndex == 1)
         ? await movieModel.getMovies(
             moviesType: MoviePageType.values[activeInnerPageIndex!],
             themeColor: themeColor!,
+            // themeColor: appState.color.value,
           )
         : await movieModel.getFavorites(
             themeColor: themeColor!,
+            // themeColor: appState.color.value,
             bottomBarIndex: bottomBarIndex,
           );
     setState(() {
@@ -74,8 +80,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     () async {
       themeColor = await file.currentTheme();
+      appState.setThemeColor(themeColor);
+
       print(themeColor);
       _scrollController = ScrollController()
         ..addListener(() {
@@ -116,7 +125,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   activeButtonIndex: activeInnerPageIndex!,
                   activeColor: themeColor!,
                   buttonFirstOnPressed: (index) => movieCategorySwitcher(index),
-                  buttonSecondOnPressed: (index) => movieCategorySwitcher(index),
+                  buttonSecondOnPressed: (index) =>
+                      movieCategorySwitcher(index),
                   buttonThirdOnPressed: (index) => movieCategorySwitcher(index),
                   searchOnPressed: () => navi.newScreen(
                     context: context,
@@ -151,11 +161,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   },
                 ),
                 BottomNavigationItem(
-                    icon: Icon(Icons.bookmark_sharp),
-                    iconSize: 23.sp,
-                    onPressed: () {
-                      pageSwitcher(2);
-                    }),
+                  icon: Icon(Icons.bookmark_sharp),
+                  iconSize: 23.sp,
+                  onPressed: () {
+                    pageSwitcher(2);
+                  },
+                ),
               ],
             ),
             drawerEnableOpenDragGesture: false,
