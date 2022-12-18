@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:movies_app_flutter/screens/splash_screen.dart';
+import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:sizer/sizer.dart';
-
-import 'screens/home_screen.dart';
-import 'utils/constants.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: kPrimaryColor,
         ),
-        home: HomeScreen(key: kHomeScreenKey),
+        home: SplashScreen(),
       );
     });
   }
