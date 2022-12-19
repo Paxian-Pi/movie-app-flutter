@@ -14,11 +14,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  double _height = 50.h;
+
   @override
   void initState() {
     super.initState();
 
-    Timer(const Duration(milliseconds: 5500), () {
+    Timer(const Duration(milliseconds: 500), () {
+      _height = 90.h;
+      setState(() {});
+    });
+
+    Timer(const Duration(milliseconds: 6000), () {
       Get.offAll(
         () => HomeScreen(key: kHomeScreenKey),
         duration: const Duration(milliseconds: 400),
@@ -39,16 +46,20 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             Container(
-              child: Center(
-                child: Text(
-                  'Welcome, please wait...',
-                  style: TextStyle(color: kDrawerTextColor, fontSize: 20.sp),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 2000),
+                height: _height,
+                curve: Curves.bounceInOut,
+                child: Center(
+                  child: Image.asset('assets/movie.png'),
                 ),
               ),
+
+              // Add a background
               // decoration: const BoxDecoration(
               //   image: DecorationImage(
               //     fit: BoxFit.cover,
-              //     image: AssetImage('assets/splash.jpg'),
+              //     image: AssetImage('assets/splash_bg.png'),
               //   ),
               // ),
             ),
