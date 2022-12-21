@@ -20,6 +20,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
+    SizerUtil.deviceType == DeviceType.mobile
+        ? debugPrint('Device type is Mobile!')
+        : debugPrint('Device type is Tablet!');
+
     Timer(const Duration(milliseconds: 500), () {
       _height = 90.h;
       setState(() {});

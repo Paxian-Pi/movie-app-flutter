@@ -26,7 +26,7 @@ const kDrawerTitleThirdText = "DEPENDENCIES";
 const kAppliedTheme = "Theme applied";
 const kNotFoundErrorText = "Not found";
 const kDrawerAboutDescText =
-    "Hi, my name is Pius Ifodo and I am a practicing Flutter developer. You see currently my portfolio/work, which is based on the 'themoviedb' API. If you want to see my future developments, do follow me on GitHub.";
+    "Hi, my name is Pius Ifodo and I am a practicing Flutter developer. You see currently my portfolio/work, which is based on 'themoviedb' API. If you want to see my future developments, do follow me on GitHub.";
 const kDrawerDependenciesDescText =
     "\t• sizer\n\t• flutter_spinkit\n\t• cached_network_image\n\t• fluttertoast\n\t• http\n\t• path_provider \n\t• url_launcher \n\t• getx";
 const kMainGreenColor = Color(0xFF37A45E);

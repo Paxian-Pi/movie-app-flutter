@@ -83,7 +83,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     () async {
       themeColor = await file.currentTheme();
-      appState.setThemeColor(themeColor);
+      appState.setTheme(themeColor);
 
       print(themeColor);
       _scrollController = ScrollController()
@@ -170,15 +170,17 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ],
             ),
             drawerEnableOpenDragGesture: false,
-            drawer: DrawerScreen(onColorChange: (color) {
-              themeColor = color;
-              setState(() {
-                alert.toastAlert(
-                  message: kAppliedTheme,
-                  themeColor: themeColor,
-                );
-              });
-            }),
+            drawer: DrawerScreen(
+              onColorChange: (color) {
+                themeColor = color;
+                setState(() {
+                  alert.toastAlert(
+                    message: kAppliedTheme,
+                    themeColor: themeColor,
+                  );
+                });
+              },
+            ),
             floatingActionButton: showBackToTopButton
                 ? ShadowlessFloatingButton(
                     iconData: Icons.keyboard_arrow_up_outlined,

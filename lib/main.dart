@@ -20,7 +20,18 @@ class MyApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: kPrimaryColor,
         ),
-        home: SplashScreen(),
+        // home: SplashScreen(),
+        home: SizerUtil.deviceType == DeviceType.mobile
+            ? Container(
+                width: 100.w,
+                height: 20.5.h,
+                child: SplashScreen(),
+              )
+            : Container(
+                width: 100.w,
+                height: 12.5.h,
+                child: SplashScreen(),
+              ),
       );
     });
   }

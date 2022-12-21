@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:movies_app_flutter/data/colored_circle_data.dart';
 import 'package:movies_app_flutter/services/app_state.dart';
 import 'package:movies_app_flutter/utils/constants.dart';
 import 'package:movies_app_flutter/utils/file_manager.dart' as file;
-import 'package:movies_app_flutter/widgets/colored_circle.dart';
 import 'package:movies_app_flutter/widgets/drawer_item.dart';
 import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../widgets/colored_circle.dart';
 
 class DrawerScreen extends StatefulWidget {
   final Function(Color) onColorChange;
@@ -50,9 +52,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
         child: Padding(
           padding:
               EdgeInsets.only(top: 10.h, left: 6.w, right: 6.w, bottom: 5.h),
+          //* SingleChildScrollView Added by Pax
           child: SingleChildScrollView(
-            //* Added by Pax
-            physics: AlwaysScrollableScrollPhysics(), //* Added by Pax
+            physics: AlwaysScrollableScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -60,44 +62,55 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   title: kDrawerTitleFirstText,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ColoredCircle(
-                        color: kMainGreenColor,
+                    children: coloredCircleData.map((e) {
+                      return ColoredCircle(
+                        color: e['colorValue'] as Color,
                         onPressed: (color) {
-                          file.saveTheme(color: "green");
+                          file.saveTheme(color: '${e['colorString']}');
                           widget.onColorChange(color);
                           _textColor = color;
-                          appState.setThemeColor(color);
+                          appState.setTheme(color);
                         },
-                      ),
-                      ColoredCircle(
-                        color: kMainBlueColor,
-                        onPressed: (color) {
-                          file.saveTheme(color: "blue");
-                          widget.onColorChange(color);
-                          _textColor = color;
-                          appState.setThemeColor(color);
-                        },
-                      ),
-                      ColoredCircle(
-                        color: kMainOrangeColor,
-                        onPressed: (color) {
-                          file.saveTheme(color: "orange");
-                          widget.onColorChange(color);
-                          _textColor = color;
-                          appState.setThemeColor(color);
-                        },
-                      ),
-                      ColoredCircle(
-                        color: kMainPinkColor,
-                        onPressed: (color) {
-                          file.saveTheme(color: "pink");
-                          widget.onColorChange(color);
-                          _textColor = color;
-                          appState.setThemeColor(color);
-                        },
-                      ),
-                    ],
+                      );
+                    }).toList(),
+                    // children: [
+                    //   ColoredCircle(
+                    //     color: kMainGreenColor,
+                    //     onPressed: (color) {
+                    //       file.saveTheme(color: "green");
+                    //       widget.onColorChange(color);
+                    //       _textColor = color;
+                    //       appState.setThemeColor(color);
+                    //     },
+                    //   ),
+                    //   ColoredCircle(
+                    //     color: kMainBlueColor,
+                    //     onPressed: (color) {
+                    //       file.saveTheme(color: "blue");
+                    //       widget.onColorChange(color);
+                    //       _textColor = color;
+                    //       appState.setThemeColor(color);
+                    //     },
+                    //   ),
+                    //   ColoredCircle(
+                    //     color: kMainOrangeColor,
+                    //     onPressed: (color) {
+                    //       file.saveTheme(color: "orange");
+                    //       widget.onColorChange(color);
+                    //       _textColor = color;
+                    //       appState.setThemeColor(color);
+                    //     },
+                    //   ),
+                    //   ColoredCircle(
+                    //     color: kMainPinkColor,
+                    //     onPressed: (color) {
+                    //       file.saveTheme(color: "pink");
+                    //       widget.onColorChange(color);
+                    //       _textColor = color;
+                    //       appState.setThemeColor(color);
+                    //     },
+                    //   ),
+                    // ],
                   ),
                 ),
                 SizedBox(height: 5.h),
